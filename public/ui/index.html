@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Football Ticketing — Demo UI</title>
+  <link rel="stylesheet" href="/ui/styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="logo">FT</div><div>
+        <div class="h1">Football Ticketing — Demo</div>
+        <div class="small">Sell, Buy, Manage tickets — admin / cashier / user dashboards</div>
+      </div></div>
+      <div>
+        <button id="mobile-menu-toggle" class="btn secondary">Menu</button>
+        <nav class="nav">
+          <a href="user/dashboard.html">User</a>
+          <a href="cashier/dashboard.html">Cashier</a>
+          <a href="admin/dashboard.html">Admin</a>
+          <a href="help.html">Help</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="h1">Welcome</h2>
+      <p class="small">This UI prototype contains separate dashboards for Users, Cashiers and Admins and supporting pages to demo the ticket buying and selling flow. Click one of the dashboard links above to get started.</p>
+    </div>
+
+    <div class="grid" style="margin-top:18px">
+      <div class="card">
+        <div class="section-title">Featured Events</div>
+        <div class="list">
+          <div class="event"><div>
+            <div style="font-weight:600">Derby: Eagles vs Falcons</div>
+            <div class="meta">Sat Oct 31 • National Stadium • 20:00</div>
+          </div><div><a class="btn" href="user/events.html">View</a></div></div>
+
+          <div class="event"><div>
+            <div style="font-weight:600">Cup Final: Lions vs Tigers</div>
+            <div class="meta">Sun Nov 15 • City Arena • 18:30</div>
+          </div><div><a class="btn" href="user/events.html">View</a></div></div>
+        </div>
+      </div>
+
+      <aside class="card">
+        <div class="section-title">Quick Actions</div>
+        <div class="list">
+          <a class="btn" href="user/events.html">Buy Tickets</a>
+          <a class="btn secondary" href="cashier/sell.html">Sell at Counter</a>
+          <a class="btn secondary" href="admin/reports.html">View Reports</a>
+        </div>
+      </aside>
+    </div>
+
+    <div class="footer">Prototype UI • For demo and design iterations</div>
+  </div>
+  <script src="/ui/app.js"></script>
+</body>
+</html>

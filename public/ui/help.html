@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Help — Football Ticketing</title>
+  <link rel="stylesheet" href="/ui/styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="logo">FT</div><div>
+        <div class="h1">Help</div>
+        <div class="small">Guides and FAQs</div>
+      </div></div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="user/dashboard.html">User</a>
+        <a href="cashier/dashboard.html">Cashier</a>
+        <a href="admin/dashboard.html">Admin</a>
+      </nav>
+    </div>
+
+    <div class="card">
+      <h3 class="h1">Quick Troubleshooting</h3>
+      <ul class="small">
+        <li>If you cannot buy a ticket, ensure the server is running and the DB is initialized.</li>
+        <li>Use the Idempotency-Key header when creating orders to prevent duplicates.</li>
+        <li>Cashiers can scan QR or enter order id on the cash desk screen.</li>
+      </ul>
+    </div>
+
+    <div class="footer">Need more help? Open an issue in the repo or contact the dev team.</div>
+  </div>
+  <script src="/ui/app.js"></script>
+</body>
+</html>

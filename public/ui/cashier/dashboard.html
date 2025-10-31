@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cashier Dashboard</title>
+  <link rel="stylesheet" href="/ui/styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="logo">C</div><div>
+        <div class="h1">Cashier — Point of Sale</div>
+        <div class="small">Sell tickets at counter, check-in and process refunds</div>
+      </div></div>
+      <nav class="nav">
+        <a href="sell.html">Sell</a>
+        <a href="scan.html">Scan</a>
+        <a href="orders.html">Orders</a>
+        <a href="../index.html">Back</a>
+      </nav>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="section-title">Sales</div>
+        <div class="kpi">
+          <div class="item"><div class="small">Today</div><div style="font-weight:700">320</div></div>
+          <div class="item"><div class="small">Revenue</div><div style="font-weight:700">$12,300</div></div>
+        </div>
+      </div>
+
+      <aside class="card">
+        <div class="section-title">Quick</div>
+        <a class="btn" href="sell.html">Sell ticket</a>
+        <a class="btn secondary" href="scan.html">Scan QR</a>
+      </aside>
+    </div>
+
+    <div class="footer">Cashier interface demo — POS flow is mocked</div>
+  </div>
+  <script src="/ui/app.js"></script>
+</body>
+</html>

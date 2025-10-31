@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Scan / Check-in</title>
+  <link rel="stylesheet" href="/ui/styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="logo">Scan</div><div>
+        <div class="h1">Scan / Check-in</div>
+        <div class="small">Scan ticket QR or enter order id</div>
+      </div></div>
+      <nav class="nav">
+        <a href="dashboard.html">Dashboard</a>
+      </nav>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Scan</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <input placeholder="Order ID or scan" style="flex:1;padding:10px;border-radius:8px;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)" />
+        <a class="btn">Validate</a>
+      </div>
+    </div>
+
+    <div class="footer">Simulate scanning by entering an order id</div>
+  </div>
+  <script src="/ui/app.js"></script>
+</body>
+</html>

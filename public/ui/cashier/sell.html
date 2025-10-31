@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sell Ticket</title>
+  <link rel="stylesheet" href="/ui/styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="logo">POS</div><div>
+        <div class="h1">Sell ticket</div>
+        <div class="small">Quick sell at counter</div>
+      </div></div>
+      <nav class="nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="orders.html">Orders</a>
+      </nav>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Sell</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <select style="flex:1;padding:10px;border-radius:8px;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)">
+          <option>Derby: Eagles vs Falcons</option>
+          <option>Cup Final: Lions vs Tigers</option>
+        </select>
+        <input placeholder="Seat (e.g. A12)" style="padding:10px;border-radius:8px;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)" />
+        <a class="btn">Sell</a>
+      </div>
+    </div>
+
+    <div class="footer">Cashier sell screen — demo mode</div>
+  </div>
+  <script src="/ui/app.js"></script>
+</body>
+</html>

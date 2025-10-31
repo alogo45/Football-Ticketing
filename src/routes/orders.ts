@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { Pool, QueryResult } from "pg";
 import { pool } from "../db";
 import { v4 as uuidv4 } from "uuid";
+import { z } from "zod";
 
 // Request/Response types
 interface OrderRequest {
@@ -28,6 +29,62 @@ interface ErrorResponse {
 
 const router = Router();
 
+// Public helper endpoints for frontend
+// GET /users - list users
+router.get("/users", async (_req, res) => {
+  try {
+    const r = await pool.query("SELECT id, name FROM users ORDER BY name LIMIT 100");
+    return res.json({ users: r.rows });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "internal_error" } as ErrorResponse);
+  }
+});
+
+// POST /users - create a user
+router.post("/users", async (req, res) => {
+  const schema = z.object({ name: z.string().min(1) });
+  const parsed = schema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(422).json({ error: "invalid_payload", details: parsed.error.format() });
+  }
+  const { name } = parsed.data;
+  try {
+    const r = await pool.query("INSERT INTO users (name) VALUES ($1) RETURNING id, name", [name]);
+    return res.status(201).json({ user: r.rows[0] });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "internal_error" } as ErrorResponse);
+  }
+});
+
+// GET /events - list events
+router.get("/events", async (_req, res) => {
+  try {
+    const r = await pool.query("SELECT id, name, starts_at FROM events ORDER BY starts_at");
+    return res.json({ events: r.rows });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "internal_error" } as ErrorResponse);
+  }
+});
+
+// GET /seats?event_id= - list seats for event
+router.get("/seats", async (req, res) => {
+  const eventId = String(req.query.event_id || "");
+  try {
+    if (!eventId) {
+      const r = await pool.query("SELECT id, event_id, label, status FROM seats ORDER BY label");
+      return res.json({ seats: r.rows });
+    }
+    const r = await pool.query("SELECT id, event_id, label, status FROM seats WHERE event_id = $1 ORDER BY label", [eventId]);
+    return res.json({ seats: r.rows });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "internal_error" } as ErrorResponse);
+  }
+});
+
 // GET /orders - list recent orders (for demo/frontend)
 router.get("/", async (_req, res) => {
   try {
@@ -50,8 +107,12 @@ router.post("/", async (req: Request<{}, OrderResponse | ErrorResponse, OrderReq
   const idempotencyKey = req.header("Idempotency-Key");
   if (!idempotencyKey) return res.status(400).json({ error: "Idempotency-Key header required" });
 
-  const { user_id, seat_id } = req.body;
-  if (!user_id || !seat_id) return res.status(400).json({ error: "user_id and seat_id required" });
+  const schema = z.object({ user_id: z.string().uuid(), seat_id: z.string().uuid() });
+  const parsed = schema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(422).json({ error: "invalid_payload", details: parsed.error.format() });
+  }
+  const { user_id, seat_id } = parsed.data;
 
   const client = await pool.connect();
   try {

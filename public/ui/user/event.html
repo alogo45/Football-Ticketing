@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Event — Seat Picker</title>
+  <link rel="stylesheet" href="/ui/styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="logo">S</div><div>
+        <div class="h1">Seat picker — Derby: Eagles vs Falcons</div>
+        <div class="small">Select seats and checkout</div>
+      </div></div>
+      <nav class="nav">
+        <a href="events.html">Back</a>
+        <a href="orders.html">My Orders</a>
+      </nav>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="section-title">Seat map</div>
+        <div class="seat-map">
+          <!-- sample seats, use data-seat-id for selection demo -->
+          <div class="seat available" data-seat-id="A1">A1</div>
+          <div class="seat reserved">A2</div>
+          <div class="seat available" data-seat-id="A3">A3</div>
+          <div class="seat available" data-seat-id="A4">A4</div>
+          <div class="seat reserved">A5</div>
+          <div class="seat available" data-seat-id="A6">A6</div>
+          <div class="seat available" data-seat-id="A7">A7</div>
+          <div class="seat available" data-seat-id="A8">A8</div>
+        </div>
+        <div style="margin-top:12px" id="seat-info" class="small">No seat selected</div>
+      </div>
+
+      <aside class="card">
+        <div class="section-title">Checkout</div>
+        <div class="small">Selected seat will appear here. In a real app this area would show price, fees and payment options.</div>
+        <div style="margin-top:12px"><a class="btn">Proceed to pay</a></div>
+      </aside>
+    </div>
+
+    <div class="footer">Seat picker demo — no real payments</div>
+  </div>
+  <script src="/ui/app.js"></script>
+</body>
+</html>
