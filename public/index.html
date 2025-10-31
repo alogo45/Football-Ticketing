@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Football Ticketing Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { padding: 8px; margin: 4px; }
+    .order { border: 1px solid #ddd; padding: 8px; margin: 6px 0; }
+  </style>
+</head>
+<body>
+  <h1>Football Ticketing — Demo UI</h1>
+  <p id="status">Checking API...</p>
+
+  <h2>Create Order</h2>
+  <form id="orderForm">
+    <label>User ID: <input id="userId" placeholder="user UUID" required></label><br>
+    <label>Seat ID: <input id="seatId" placeholder="seat UUID" required></label><br>
+    <label>Idempotency Key: <input id="idemKey" placeholder="order-123" ></label><br>
+    <button type="submit">Create Order</button>
+  </form>
+  <div id="result"></div>
+
+  <h2>Recent Orders</h2>
+  <div id="orders"></div>
+
+  <script>
+    async function checkApi() {
+      try {
+        const r = await fetch('/health');
+        const j = await r.json();
+        document.getElementById('status').textContent = 'API: ' + JSON.stringify(j);
+      } catch (e) {
+        document.getElementById('status').textContent = 'API unreachable';
+      }
+    }
+
+    async function loadOrders() {
+      const res = await fetch('/orders');
+      if (!res.ok) { document.getElementById('orders').textContent = 'Failed to load orders'; return }
+      const j = await res.json();
+      const container = document.getElementById('orders');
+      container.innerHTML = '';
+      (j.orders || []).forEach(o => {
+        const d = document.createElement('div');
+        d.className = 'order';
+        d.textContent = `${o.id} | user:${o.user_id} | seat:${o.seat_id} | ${o.status} | ${o.created_at}`;
+        container.appendChild(d);
+      });
+    }
+
+    document.getElementById('orderForm').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const userId = document.getElementById('userId').value.trim();
+      const seatId = document.getElementById('seatId').value.trim();
+      let idem = document.getElementById('idemKey').value.trim();
+      if (!idem) idem = 'idem-' + Date.now();
+      document.getElementById('result').textContent = 'Sending...';
+      try {
+        const r = await fetch('/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Idempotency-Key': idem
+          },
+          body: JSON.stringify({ user_id: userId, seat_id: seatId })
+        });
+        const j = await r.json();
+        if (!r.ok) {
+          document.getElementById('result').textContent = 'Error: ' + JSON.stringify(j);
+        } else {
+          document.getElementById('result').textContent = 'Created: ' + JSON.stringify(j.order);
+          loadOrders();
+        }
+      } catch (e) {
+        document.getElementById('result').textContent = 'Network error';
+      }
+    });
+
+    checkApi();
+    loadOrders();
+    setInterval(loadOrders, 5000);
+  </script>
+</body>
+</html>
