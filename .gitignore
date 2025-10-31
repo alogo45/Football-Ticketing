@@ -1,0 +1,51 @@
+# Node
+node_modules/
+
+# Build output
+dist/
+
+# Env files
+.env
+.env.*.local
+.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Misc
+*.local
+*.tmp
+*.temp
+.env.test
+
+# Docker configs / volumes (if any local artifacts)
+*.envrc
+
+# Ignore VS Code port forwarding files
+.vscode-server/
+
+# Ignore generated types (if any)
+# keep src/types/ if used but ignore compiled artifacts
+
+# Keep lockfiles under source control (package-lock.json) - do not ignore
