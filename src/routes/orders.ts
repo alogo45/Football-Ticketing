@@ -28,6 +28,17 @@ interface ErrorResponse {
 
 const router = Router();
 
+// GET /orders - list recent orders (for demo/frontend)
+router.get("/", async (_req, res) => {
+  try {
+    const result = await pool.query<Order>("SELECT * FROM orders ORDER BY created_at DESC LIMIT 50");
+    return res.json({ orders: result.rows });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "internal_error" } as ErrorResponse);
+  }
+});
+
 /*
 POST /orders
 Headers:
