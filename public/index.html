@@ -1,86 +1,69 @@
 <!doctype html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <title>Football Ticketing Demo</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    input, button { padding: 8px; margin: 4px; }
-    .order { border: 1px solid #ddd; padding: 8px; margin: 6px 0; }
-  </style>
-</head>
-<body>
-  <h1>Football Ticketing — Demo UI</h1>
-  <p id="status">Checking API...</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Football Ticketing</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Football Ticketing</h1>
+        <div class="small">Demo storefront</div>
+      </div>
 
-  <h2>Create Order</h2>
-  <form id="orderForm">
-    <label>User ID: <input id="userId" placeholder="user UUID" required></label><br>
-    <label>Seat ID: <input id="seatId" placeholder="seat UUID" required></label><br>
-    <label>Idempotency Key: <input id="idemKey" placeholder="order-123" ></label><br>
-    <button type="submit">Create Order</button>
-  </form>
-  <div id="result"></div>
+      <div class="grid">
+        <div>
+          <div class="card">
+            <h3>Purchase ticket</h3>
+            <form id="purchaseForm">
+              <div class="form-row">
+                <label>Event
+                  <select id="event"></select>
+                </label>
+                <label>Seat
+                  <select id="seat"></select>
+                </label>
+              </div>
+              <div class="form-row">
+                <label>User
+                  <select id="userSelect"></select>
+                </label>
+                <label>Idempotency Key
+                  <input id="idem" placeholder="optional" />
+                </label>
+              </div>
+              <button id="purchaseBtn" class="button">Buy ticket</button>
+              <div id="purchaseResult" class="small" style="margin-top:8px"></div>
+            </form>
+          </div>
 
-  <h2>Recent Orders</h2>
-  <div id="orders"></div>
+          <div class="card">
+            <h3>Recent orders</h3>
+            <div id="ordersList" class="orders"></div>
+          </div>
+        </div>
 
-  <script>
-    async function checkApi() {
-      try {
-        const r = await fetch('/health');
-        const j = await r.json();
-        document.getElementById('status').textContent = 'API: ' + JSON.stringify(j);
-      } catch (e) {
-        document.getElementById('status').textContent = 'API unreachable';
-      }
-    }
+        <aside>
+          <div class="card">
+            <h3>Create user</h3>
+            <form id="createUserForm">
+              <div class="form-row"><label><input id="newUserName" placeholder="Full name" /></label></div>
+              <button class="button">Create</button>
+            </form>
+          </div>
 
-    async function loadOrders() {
-      const res = await fetch('/orders');
-      if (!res.ok) { document.getElementById('orders').textContent = 'Failed to load orders'; return }
-      const j = await res.json();
-      const container = document.getElementById('orders');
-      container.innerHTML = '';
-      (j.orders || []).forEach(o => {
-        const d = document.createElement('div');
-        d.className = 'order';
-        d.textContent = `${o.id} | user:${o.user_id} | seat:${o.seat_id} | ${o.status} | ${o.created_at}`;
-        container.appendChild(d);
-      });
-    }
+          <div class="card">
+            <h3>API Status</h3>
+            <div id="status" class="small">checking...</div>
+          </div>
+        </aside>
+      </div>
 
-    document.getElementById('orderForm').addEventListener('submit', async (ev) => {
-      ev.preventDefault();
-      const userId = document.getElementById('userId').value.trim();
-      const seatId = document.getElementById('seatId').value.trim();
-      let idem = document.getElementById('idemKey').value.trim();
-      if (!idem) idem = 'idem-' + Date.now();
-      document.getElementById('result').textContent = 'Sending...';
-      try {
-        const r = await fetch('/orders', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Idempotency-Key': idem
-          },
-          body: JSON.stringify({ user_id: userId, seat_id: seatId })
-        });
-        const j = await r.json();
-        if (!r.ok) {
-          document.getElementById('result').textContent = 'Error: ' + JSON.stringify(j);
-        } else {
-          document.getElementById('result').textContent = 'Created: ' + JSON.stringify(j.order);
-          loadOrders();
-        }
-      } catch (e) {
-        document.getElementById('result').textContent = 'Network error';
-      }
-    });
+      <div class="footer">This is a demo. For production, add auth, payments, and stronger validations.</div>
+    </div>
 
-    checkApi();
-    loadOrders();
-    setInterval(loadOrders, 5000);
-  </script>
-</body>
+    <script src="/app.js"></script>
+  </body>
 </html>
