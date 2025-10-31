@@ -13,6 +13,8 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+// serve static demo page
+app.use(express.static("public"));
 
 app.get("/health", (_req, res) => {
   return res.json({ ok: true });
